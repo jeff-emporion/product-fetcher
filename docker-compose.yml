@@ -52,7 +52,25 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
-
+  
+  api1mock:
+    image: wiremock/wiremock
+    ports:
+      - target: 8080
+        published: ${API1_HTTP_PORT:-8091}
+        protocol: tcp
+    volumes:
+      - ./docker/wiremock/api1:/home/wiremock
+  
+  api2mock:
+    image: wiremock/wiremock
+    ports:
+      - target: 8080
+        published: ${API2_HTTP_PORT:-8092}
+        protocol: tcp
+    volumes:
+      - ./docker/wiremock/api2:/home/wiremock
+        
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
